@@ -38,6 +38,7 @@ public class BattleState extends JFrame
     private JTextArea battle_report;
     
     private Unit[] turn_order = new Unit[2];
+    private int turn_counter = 0;
     
     //Constructor
     public BattleState(Unit hero, Unit enemy){
@@ -47,6 +48,9 @@ public class BattleState extends JFrame
         calculateTurnOrder(hero,enemy);
         
         battle_report.append("\n" + turn_order[0].getName() + " goes first");
+        
+        if(turn_order[turn_counter] instanceof Enemy)
+            enemyTurn(hero,enemy,false);
     }
     
     private void createComponents(Unit hero,Unit enemy){
@@ -163,7 +167,16 @@ public class BattleState extends JFrame
         if (!defend)
             healthChange(enemy,hero);
         else
-            battle_report.append("\n" + hero.getName() + " defended the " + enemy.getName() + "'s attack");
+            battle_report.append("\n " + hero.getName() + " defended the " + enemy.getName() + "'s attack");
+            
+        nextTurn();    
+    }
+    
+    public void nextTurn(){
+        if(turn_counter++ < turn_order.length)
+            turn_counter++;
+        else
+            turn_counter = 0;
     }
     
     private class EventHandler implements ActionListener{
@@ -178,8 +191,10 @@ public class BattleState extends JFrame
         public void actionPerformed(ActionEvent event){
                 if(event.getSource()==button1){
                     healthChange(hero,enemy);
+                    nextTurn();
                     enemyTurn(hero,enemy,false);    
                 } else if(event.getSource()==button2){
+                    nextTurn();
                     enemyTurn(hero,enemy,true);
                 }else if(event.getSource()==button3){
                     battle_report.append("\nYou ran away");
