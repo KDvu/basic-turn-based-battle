@@ -171,9 +171,10 @@ public class BattleState extends JFrame
         public void actionPerformed(ActionEvent event){
                 if(event.getSource()==button1){
                     healthChange(hero,enemy);
-
+                        
                 } else if(event.getSource()==button3){
                     battle_report.append("\nYou ran away");
+                    System.exit(0);
                 }
         }
     }    
