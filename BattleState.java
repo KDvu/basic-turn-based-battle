@@ -5,11 +5,14 @@ import java.awt.GridBagConstraints;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.JProgressBar;
 import java.awt.Insets;
 import java.awt.Color;
+import java.awt.Font;
+
 
 import javax.swing.BorderFactory;
 import java.awt.BorderLayout;
@@ -59,8 +62,10 @@ public class BattleState extends JFrame
         c.gridy=0;
         panel.add(enemy,c);
         
-        hero_image = new JLabel("INSERT IMAGE");        
-        enemy_image = new JLabel("INSERT IMAGE");
+        hero_image = new JLabel();
+        hero_image.setIcon(new ImageIcon("images/hero_image.png"));
+        enemy_image = new JLabel();
+        enemy_image.setIcon(new ImageIcon("images/enemy_image.png"));
         c.gridx=1;
         c.gridy=1;
         panel.add(hero_image,c);
@@ -80,12 +85,16 @@ public class BattleState extends JFrame
         button1 = new JButton("Attack");
         button2 = new JButton("Defend");        
         button3 = new JButton("Run");
+
+        c.gridwidth=2;
         c.gridx=1;
         c.gridy=4;                
         panel.add(button1,c);
+        c.gridwidth=2;        
         c.gridx=1;
         c.gridy=5; 
         panel.add(button2,c);
+        c.gridwidth=2;        
         c.gridx=1;
         c.gridy=6; 
         panel.add(button3,c);
