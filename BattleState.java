@@ -26,11 +26,11 @@ public class BattleState extends JFrame
     
     private JLabel hero_name;
     private JLabel hero_image;
-    private JProgressBar hero_hp;
+    private JProgressBar hero_hp_bar;
     
     private JLabel enemy_name;
     private JLabel enemy_image;
-    private JProgressBar enemy_hp;
+    private JProgressBar enemy_hp_bar;
     
     private JButton button1;
     private JButton button2;
@@ -86,14 +86,14 @@ public class BattleState extends JFrame
         c.gridy=1;
         panel.add(enemy_image,c);
         
-        hero_hp = new JProgressBar(0);
-        enemy_hp = new JProgressBar(0);        
+        hero_hp_bar = new JProgressBar(0);
+        enemy_hp_bar = new JProgressBar(0);        
         c.gridx=1;
         c.gridy=2;
-        panel.add(hero_hp,c);
+        panel.add(hero_hp_bar,c);
         c.gridx=3;
         c.gridy=2;        
-        panel.add(enemy_hp,c);
+        panel.add(enemy_hp_bar,c);
         
         button1 = new JButton("Attack");
         button2 = new JButton("Defend");        
@@ -131,11 +131,11 @@ public class BattleState extends JFrame
     }
     
     private void displayHealthBars(Unit hero,Unit enemy){
-        hero_hp.setMaximum(hero.getHp());
-        hero_hp.setValue(hero.getHp());
+        hero_hp_bar.setMaximum(hero.getHp());
+        hero_hp_bar.setValue(hero.getHp());
  
-        enemy_hp.setMaximum(enemy.getHp());
-        enemy_hp.setValue(enemy.getHp());       
+        enemy_hp_bar.setMaximum(enemy.getHp());
+        enemy_hp_bar.setValue(enemy.getHp());       
     }
     
     private void calculateTurnOrder(Unit hero, Unit enemy){
@@ -146,6 +146,17 @@ public class BattleState extends JFrame
             turn_order[0] = enemy;
             turn_order[1] = hero;
         }
+    }
+    
+    public void healthChange(Unit attacker, Unit victim){
+         victim.setHp(victim.getHp() - attacker.getAtk());
+         battle_report.append("\n" + victim.getName() + " took " + attacker.getAtk() + " damage and now has " +   
+                              victim.getHp() + " hp.");
+         
+         if(victim instanceof Enemy)
+            enemy_hp_bar.setValue(victim.getHp());                       
+         else if (victim instanceof Hero)
+            hero_hp_bar.setValue(victim.getHp());                       
     }
     
     private class EventHandler implements ActionListener{
@@ -159,9 +170,8 @@ public class BattleState extends JFrame
         
         public void actionPerformed(ActionEvent event){
                 if(event.getSource()==button1){
-                    enemy.setHp(enemy.getHp() - hero.getAtk());
-                    battle_report.append("\n" + enemy.getName() + " took " + hero.getAtk() + " damage and now has " +   
-                                           enemy.getHp() + " hp.");
+                    healthChange(hero,enemy);
+
                 } else if(event.getSource()==button3){
                     battle_report.append("\nYou ran away");
                 }
