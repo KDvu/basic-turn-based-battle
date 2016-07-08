@@ -40,6 +40,7 @@ public class BattleState extends JFrame
     public BattleState(Unit hero, Unit enemy){
         super("Turn-Based Battle System");
         createComponents(hero,enemy);
+        displayHealthBars(hero,enemy);
         calculateTurnOrder(hero,enemy);
         
         battle_report.append("\n" + turn_order[0].getName() + " goes first");
@@ -119,6 +120,14 @@ public class BattleState extends JFrame
         pack();
         
         setVisible(true);
+    }
+    
+    private void displayHealthBars(Unit hero,Unit enemy){
+        hero_hp.setMaximum(hero.getHp());
+        hero_hp.setValue(hero.getHp());
+ 
+        enemy_hp.setMaximum(enemy.getHp());
+        enemy_hp.setValue(enemy.getHp());       
     }
     
     private void calculateTurnOrder(Unit hero, Unit enemy){
