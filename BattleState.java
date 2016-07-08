@@ -20,7 +20,7 @@ import javax.swing.BorderFactory;
 import java.awt.BorderLayout;
 import javax.swing.border.Border;
 
-public class BattleState extends JFrame
+public class BattleState extends JFrame 
 {
     private JPanel panel;
     
@@ -112,7 +112,7 @@ public class BattleState extends JFrame
         c.gridy=6; 
         panel.add(button3,c);
         
-        EventHandler handler = new EventHandler();
+        EventHandler handler = new EventHandler(hero, enemy);
         button1.addActionListener(handler);
         button2.addActionListener(handler);        
         button3.addActionListener(handler);
@@ -149,10 +149,22 @@ public class BattleState extends JFrame
     }
     
     private class EventHandler implements ActionListener{
-        public void actionPerformed(ActionEvent event){
-            if(event.getSource()==button3){
-                battle_report.append("\nYou ran away");
-            }
+        private Hero hero;
+        private Enemy enemy;
+        
+        public EventHandler(Unit hero, Unit enemy){
+            this.hero = (Hero) hero;
+            this.enemy = (Enemy) enemy;
         }
-    }
+        
+        public void actionPerformed(ActionEvent event){
+                if(event.getSource()==button1){
+                    enemy.setHp(enemy.getHp() - hero.getAtk());
+                    battle_report.append("\n" + enemy.getName() + " took " + hero.getAtk() + " damage and now has " +   
+                                           enemy.getHp() + " hp.");
+                } else if(event.getSource()==button3){
+                    battle_report.append("\nYou ran away");
+                }
+        }
+    }    
 }
