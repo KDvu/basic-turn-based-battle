@@ -159,6 +159,10 @@ public class BattleState extends JFrame
             hero_hp_bar.setValue(victim.getHp());                       
     }
     
+    public void enemyTurn(Unit hero, Unit enemy){
+        healthChange(enemy,hero);
+    }
+    
     private class EventHandler implements ActionListener{
         private Hero hero;
         private Enemy enemy;
@@ -171,7 +175,7 @@ public class BattleState extends JFrame
         public void actionPerformed(ActionEvent event){
                 if(event.getSource()==button1){
                     healthChange(hero,enemy);
-                        
+                    enemyTurn(hero,enemy);    
                 } else if(event.getSource()==button3){
                     battle_report.append("\nYou ran away");
                     System.exit(0);
