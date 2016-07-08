@@ -13,7 +13,6 @@ import java.awt.Insets;
 import java.awt.Color;
 import java.awt.Font;
 
-
 import javax.swing.BorderFactory;
 import java.awt.BorderLayout;
 import javax.swing.border.Border;
@@ -22,11 +21,11 @@ public class BattleState extends JFrame
 {
     private JPanel panel;
     
-    private JLabel hero;
+    private JLabel hero_name;
     private JLabel hero_image;
     private JProgressBar hero_hp;
     
-    private JLabel enemy;
+    private JLabel enemy_name;
     private JLabel enemy_image;
     private JProgressBar enemy_hp;
     
@@ -35,9 +34,19 @@ public class BattleState extends JFrame
     private JButton button3;    
     private JTextArea battle_report;
     
+    private Unit[] turn_order = new Unit[2];
+    
     //Constructor
-    public BattleState(){
+    public BattleState(Unit hero, Unit enemy){
         super("Turn-Based Battle System");
+        createComponents(hero,enemy);
+        calculateTurnOrder(hero,enemy);
+        
+        battle_report.append("\n" + turn_order[0].getName() + " goes first");
+    }
+    
+    private void createComponents(Unit hero,Unit enemy){
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(500,500);
         setLocationRelativeTo(null);
@@ -51,21 +60,21 @@ public class BattleState extends JFrame
         add(panel, c);
         c.insets= new Insets(10,10,10,10);                
         
-        hero = new JLabel("HERO");
-        hero.setToolTipText("HERO NAME");
-        enemy = new JLabel("ENEMY");
-        hero.setToolTipText("ENEMY NAME");
+        hero_name = new JLabel(hero.getName());
+        hero_name.setToolTipText("HERO NAME");
+        enemy_name = new JLabel(enemy.getName());
+        enemy_name.setToolTipText("ENEMY NAME");
         c.gridx=1;
         c.gridy=0;
-        panel.add(hero,c);
+        panel.add(hero_name,c);
         c.gridx=3;
         c.gridy=0;
-        panel.add(enemy,c);
+        panel.add(enemy_name,c);
         
         hero_image = new JLabel();
-        hero_image.setIcon(new ImageIcon("images/hero_image.png"));
+        hero_image.setIcon(new ImageIcon(hero.getUnitImage()));
         enemy_image = new JLabel();
-        enemy_image.setIcon(new ImageIcon("images/enemy_image.png"));
+        enemy_image.setIcon(new ImageIcon(enemy.getUnitImage()));
         c.gridx=1;
         c.gridy=1;
         panel.add(hero_image,c);
@@ -110,5 +119,15 @@ public class BattleState extends JFrame
         pack();
         
         setVisible(true);
+    }
+    
+    private void calculateTurnOrder(Unit hero, Unit enemy){
+        if(hero.getSpd() > enemy.getSpd()){
+            turn_order[0] = hero;
+            turn_order[1] = enemy;
+        } else{
+            turn_order[0] = enemy;
+            turn_order[1] = hero;
+        }
     }
 }
