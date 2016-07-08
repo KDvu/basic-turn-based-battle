@@ -1,7 +1,7 @@
 public class Hero extends Unit
 {
-    public Hero(int hp, int atk, int spd){
-        super(hp,atk,spd);
+    public Hero(String name, int hp, int atk, int spd){
+        super(name,hp,atk,spd);
         setUnitImage("images/hero_image.png");
     }
 }

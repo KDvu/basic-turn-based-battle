@@ -1,15 +1,20 @@
 public class Unit
 {
+    private String name;
     private int hp;
     private int atk;
     private int spd;
     private String unit_image;
     
-    public Unit(int hp,int atk,int spd, String image){
+    public Unit(String name, int hp,int atk,int spd){
+        this.name = name;
         this.hp = hp;
         this.atk = atk;
         this.spd = spd;
-        this.unit_image = image;
+    }
+    
+    public String getName(){
+        return name;
     }
     
     public int getHp(){
@@ -23,6 +28,10 @@ public class Unit
     public int getSpd(){
         return spd;
     }
+    
+    public void setUnitImage(String image){
+        this.unit_image = image;
+    }    
     
     public String getUnitImage(){
         return unit_image;

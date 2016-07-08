@@ -1,9 +1,8 @@
 public class Enemy extends Unit
 {
-    public Enemy(int hp, int atk, int spd)
+    public Enemy(String name, int hp, int atk, int spd)
     {
-        super(hp,atk,spd);
+        super(name,hp,atk,spd);
         setUnitImage("images/enemy_image.png");
     }
-    
 }
