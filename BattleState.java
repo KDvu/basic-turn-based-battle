@@ -2,6 +2,9 @@ import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -109,6 +112,11 @@ public class BattleState extends JFrame
         c.gridy=6; 
         panel.add(button3,c);
         
+        EventHandler handler = new EventHandler();
+        button1.addActionListener(handler);
+        button2.addActionListener(handler);        
+        button3.addActionListener(handler);
+        
         battle_report = new JTextArea("Battle Report",8, 12);
         Border border = BorderFactory.createLineBorder(Color.black);
         //battle_report.setBackground(Color.yellow);
@@ -137,6 +145,14 @@ public class BattleState extends JFrame
         } else{
             turn_order[0] = enemy;
             turn_order[1] = hero;
+        }
+    }
+    
+    private class EventHandler implements ActionListener{
+        public void actionPerformed(ActionEvent event){
+            if(event.getSource()==button3){
+                battle_report.append("\nYou ran away");
+            }
         }
     }
 }
