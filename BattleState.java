@@ -173,7 +173,7 @@ public class BattleState extends JFrame
     }
     
     public void nextTurn(){
-        if(turn_counter + 1 <= turn_order.length){
+        if(turn_counter + 1 <= turn_order.length-1){
             turn_counter++;
         }
         else
