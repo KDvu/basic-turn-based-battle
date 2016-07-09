@@ -11,6 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+
 import javax.swing.JProgressBar;
 import java.awt.Insets;
 import java.awt.Color;
@@ -60,11 +63,13 @@ public class BattleState extends JFrame
         setLocationRelativeTo(null);
         setLayout(new GridBagLayout());
         
+        
+        
         //setLayout(new FlowLayout());
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBorder(BorderFactory.createLineBorder(Color.black));     
         GridBagConstraints c = new GridBagConstraints();
-        c.anchor = GridBagConstraints.NORTHWEST;
+        //c.anchor = GridBagConstraints.NORTHWEST;
         add(panel, c);
         c.insets= new Insets(10,10,10,10);                
         
@@ -72,29 +77,35 @@ public class BattleState extends JFrame
         hero_name.setToolTipText("HERO NAME");
         enemy_name = new JLabel(enemy.getName());
         enemy_name.setToolTipText("ENEMY NAME");
-        c.gridx=1;
-        c.gridy=0;
+        c = createGBC(1,0,1,1);
+        //c.gridx=1;
+        //c.gridy=0;
         panel.add(hero_name,c);
-        c.gridx=3;
-        c.gridy=0;
+        c = createGBC(3,0,1,1);
+        //c.gridx=3;
+        //c.gridy=0;
         panel.add(enemy_name,c);
         
         hero_image = new JLabel();
         hero_image.setIcon(new ImageIcon(hero.getUnitImage()));
         enemy_image = new JLabel();
         enemy_image.setIcon(new ImageIcon(enemy.getUnitImage()));
-        c.gridx=1;
-        c.gridy=1;
+        c = createGBC(1,1,1,1);        
+        //c.gridx=1;
+        //c.gridy=1;
         panel.add(hero_image,c);
-        c.gridx=3;
-        c.gridy=1;
+        c = createGBC(3,1,1,1);
+        //c.gridx=3;
+        //c.gridy=1;
         panel.add(enemy_image,c);
         
         hero_hp_bar = new JProgressBar(0);
-        enemy_hp_bar = new JProgressBar(0);        
+        enemy_hp_bar = new JProgressBar(0);    
+        c = createGBC(1,2,1,1);
         c.gridx=1;
         c.gridy=2;
         panel.add(hero_hp_bar,c);
+        c = createGBC(3,2,1,1);        
         c.gridx=3;
         c.gridy=2;        
         panel.add(enemy_hp_bar,c);
@@ -102,18 +113,20 @@ public class BattleState extends JFrame
         button1 = new JButton("Attack");
         button2 = new JButton("Defend");        
         button3 = new JButton("Run");
-
-        c.gridwidth=2;
-        c.gridx=1;
-        c.gridy=4;                
+        c = createGBC(1,4,2,1);
+        //c.gridwidth=2;
+        //c.gridx=1;
+        //c.gridy=4;                
         panel.add(button1,c);
-        c.gridwidth=2;        
-        c.gridx=1;
-        c.gridy=5; 
+        c = createGBC(1,5,2,1);
+        //c.gridwidth=2;        
+        //c.gridx=1;
+        //c.gridy=5; 
         panel.add(button2,c);
-        c.gridwidth=2;        
-        c.gridx=1;
-        c.gridy=6; 
+        c = createGBC(1,6,2,1);        
+        //c.gridwidth=2;        
+        //c.gridx=1;
+        //c.gridy=6; 
         panel.add(button3,c);
         
         EventHandler handler = new EventHandler(hero, enemy);
@@ -121,17 +134,32 @@ public class BattleState extends JFrame
         button2.addActionListener(handler);        
         button3.addActionListener(handler);
         
-        battle_report = new JTextArea("Battle Report",8, 12);
+
+        battle_report = new JTextArea("Battle Report",8, 20);
+        JScrollPane scroll = new JScrollPane(battle_report, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);         
         Border border = BorderFactory.createLineBorder(Color.black);
+        
         //battle_report.setBackground(Color.yellow);
         battle_report.setBorder(border);
-        c.gridheight=3;
-        c.gridx=3;
-        c.gridy=4; 
-        panel.add(battle_report,c);
+        c = createGBC(3,4,2,4);        
+        //c.gridheight=3;
+        //c.gridx=3;
+        //c.gridy=4; 
+        panel.add(scroll,c);
         pack();
         
         setVisible(true);
+    }
+    
+    private GridBagConstraints createGBC(int x, int y, int width, int height){
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridx = x;
+        c.gridy = y;
+        c.gridwidth = width;
+        c.gridheight = height;
+        
+        c.insets= new Insets(10,10,5,5);                
+        return c;
     }
     
     private void displayHealthBars(Unit hero,Unit enemy){
