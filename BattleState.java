@@ -173,10 +173,13 @@ public class BattleState extends JFrame
     }
     
     public void nextTurn(){
-        if(turn_counter++ < turn_order.length)
+        if(turn_counter + 1 <= turn_order.length){
             turn_counter++;
+        }
         else
             turn_counter = 0;
+        
+        battle_report.append("\nIt is now " + turn_order[turn_counter].getName() + "'s turn");
     }
     
     private class EventHandler implements ActionListener{
